@@ -1,0 +1,24 @@
+<h1>Persons list</h1>
+
+<% if (collection.length) { %>
+<table class="table table-striped persons-list">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Birth date
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="list-tbody">
+    </tbody>
+</table>
+
+<% } else { %>
+<div class="well">No persons yet.</div>
+<% } %>
+
+<button type="button" class="btn btn-primary go-to" data-href="/person/add">Add person</button>

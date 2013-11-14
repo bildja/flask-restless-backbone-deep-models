@@ -1,0 +1,27 @@
+<% if (collection.totalPages > 1) { %>
+<%
+    var isFirstPage = collection.page === 1,
+        isLastPage = collection.page === collection.totalPages
+%>
+<ul class="pagination">
+    <li class="<%= isFirstPage ? 'disabled' : '' %>">
+        <% if (isFirstPage) { %>
+        <span>&laquo;</span>
+        <% } else { %>
+        <a href="<%= baseUrl %>page/1">&laquo;</a>
+        <% } %>
+    </li>
+    <% for (var page = 1; page <= collection.totalPages; page++) { %>
+    <li class="<%= page === collection.page ? 'active' : '' %>">
+        <a href="<%= baseUrl %>page/<%= page %>"><%= page %></a>
+    </li>
+    <% } %>
+    <li class="<%= isLastPage ? 'disabled' : '' %>">
+        <% if (isLastPage) { %>
+        <span>&raquo;</span>
+        <% } else { %>
+        <a href="<%= baseUrl %>page/<%= collection.totalPages %>">&raquo;</a>
+        <% } %>
+    </li>
+</ul>
+<% } %>

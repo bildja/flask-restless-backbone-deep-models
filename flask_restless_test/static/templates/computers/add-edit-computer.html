@@ -1,0 +1,45 @@
+<div class="modal fade" id="add-edit-computer">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title"><%= model.isNew() ? "Add" : "Edit" %> computer</h4>
+      </div>
+      <form action="/api/computer" method="post">
+          <div class="modal-body">
+
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" name="name" class="form-control" id="name" placeholder="Enter name">
+              </div>
+              <div class="form-group">
+                <label for="owner">Vendor</label>
+                <input type="text" name="vendor" class="form-control" id="owner" placeholder="Vendor">
+              </div>
+              <div class="form-group">
+                  <label for="purchase-time">Purchase time</label>
+                  <input name="purchase_time" id="purchase-time-value" type="hidden" />
+                  <div id="purchase-time-picker" class="input-group date" data-date-format="dd MM yyyy hh:ii" data-link-field="purchase-time-value">
+                    <input id="purchase-time" class="form-control" size="16" type="text" />
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                  </div>
+              </div>
+              <div class="form-group">
+                  <label for="owner_id">Owner</label>
+                  <select name="owner_id" id="owner_id" data-search-field="name" data-placeholder="Search an owner..." style="width: 538px;" class="form-control chosen-select" data-url="/api/person" data-text-field="name" data-value-field="id">
+                      <option></option>
+                      <% if (model.get('owner')) { %>
+                      <option value="<%= model.getOwnerId() %>" selected><%- model.getOwnerName() %></option>
+                      <% } %>
+                  </select>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+          </div>
+    </form>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
