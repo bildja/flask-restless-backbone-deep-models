@@ -1,0 +1,25 @@
+<div class="modal fade" id="computer-notes">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Notes on the "<%= model.get('name') %>" computer</h4>
+      </div>
+      <div class="modal-body">
+          <div class="notes-list">
+          </div>
+          <form action="post" id="add-note-form" action=".">
+              <div class="form-group">
+                  <label for="note-text">Note text</label>
+                  <textarea name="text" class="form-control" id="note-text" cols="30" rows="4"></textarea>
+              </div>
+              <input class="btn btn-default" type="submit" value="Add note" />
+          </form>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn cancel btn-default" data-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn save-notes btn-primary">Save notes</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

@@ -13,6 +13,15 @@ define(function (require) {
                 return '-';
             }
             return moment(birthDate).format('DD MMM YYYY');
+        },
+
+        getComputersCount: function () {
+            var computers = this.get('computers'),
+                computersCount = this.get('computers_count');
+            if (computersCount) {
+                return computersCount;
+            }
+            return computers ? computers.length : 0;
         }
     });
 });

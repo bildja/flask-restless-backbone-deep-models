@@ -1,4 +1,4 @@
-<div class="modal fade" id="add-edit-computer">
+<div class="modal fade" id="add-edit-person">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -12,13 +12,12 @@
                 <input type="text" name="name" class="form-control" id="name" placeholder="Enter name">
               </div>
               <div class="form-group">
-                  <label for="birth-date">Birth date</label>
-                  <div id="birth-date-picker" class="input-append date">
-                    <input id="birth-date" name="birth_date" data-format="dd/MM/yyyy" type="text" />
-                    <span class="add-on">
-                      <i data-time-icon="icon-time" data-date-icon="icon-calendar">
-                      </i>
-                    </span>
+                  <label for="birth-date">Birth Date</label>
+                  <input name="birth_date" id="birth-date-value" type="hidden" />
+                  <div id="birth-date-picker" class="input-group date" data-format-view-type="date" data-min-view="month" data-date-format="dd MM yyyy" data-link-field="birth-date-value">
+                    <input id="birth-date" class="form-control" size="16" type="text" />
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                   </div>
               </div>
           </div>

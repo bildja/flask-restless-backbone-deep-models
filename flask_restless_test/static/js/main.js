@@ -12,4 +12,7 @@ define(function (require) {
     router.on('route', function () {
         layoutView.setActiveLink();
     });
+    $(function () {
+        layoutView.setActiveLink();
+    });
 });

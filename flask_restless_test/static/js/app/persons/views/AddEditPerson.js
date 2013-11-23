@@ -7,7 +7,7 @@ define(function (require) {
     require('datepicker');
     return ModalForm.extend({
         template: _.template(addEditPersonTemplate),
-        modalSelector: '#add-edit-computer',
+        modalSelector: '#add-edit-person',
         backUrl: '/person',
 
         getFormData: function () {

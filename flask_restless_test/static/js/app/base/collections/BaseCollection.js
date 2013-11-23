@@ -4,12 +4,10 @@ define(function (require) {
         _ = require('underscore'),
         Backbone = require('backbone');
     return Backbone.Collection.extend({
-        page: 1,
 
         parse: function (data) {
             this.page = data.page;
             this.totalPages = data.total_pages;
-            console.log(this.totalPages);
             return data.objects;
         },
 
@@ -17,15 +15,27 @@ define(function (require) {
             options = options || {};
             options.data = options.data || {};
             _.extend(options.data, {
-                page: this.page
+                page: this.page || 1
             });
             return Backbone.Collection.prototype.fetch.call(this, options);
         },
 
-        setPage: function (page, fetch) {
-            this.page = page || 1;
-            if (fetch) {
-                this.fetch();
+        setPage: function (options) {
+            options = options || {};
+            var page = parseInt(options.page || 1, 10);
+            if (page === this.page && !options.force) {
+                return this;
+            }
+            this.page = page;
+            this.trigger('page:change', {
+                            page: page
+                        });
+            if (options.fetch) {
+                this.fetch({
+                    success: function () {
+
+                    }.bind(this)
+                });
             }
             return this;
         }

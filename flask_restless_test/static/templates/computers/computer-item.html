@@ -1,16 +1,20 @@
-<td>
+<td class="computer-name">
     <%- model.get('name') %>
 </td>
-<td>
+<td class="computer-vendor">
     <%- model.get('vendor') %>
 </td>
-<td>
+<td class="computer-purchase-time">
     <%- model.getPurchaseTimeFormatted() %>
 </td>
-<td>
-    <%- model.getOwnerName() %>
+<td class="computer-owner">
+    <% var owner = model.get('owner'); %>
+    <% if (owner) { %>
+    <a href="/person/info/<%= owner.id %>?back=<%= window.location.pathname %>"><%- model.getOwnerName() %></a>
+    <% } %>
 </td>
 <td>
     <button class="btn btn-info edit-item go-to" data-href="/computer/edit/<%= model.get('id') %>">Edit</button>
     <button class="btn btn-danger delete-item">Delete</button>
+    <button class="btn btn-default go-to" data-href="/computer/notes/<%= model.get('id') %>" title="<%= model.getNotesCount() %> notes">Notes</button>
 </td>

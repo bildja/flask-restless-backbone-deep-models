@@ -1,11 +1,23 @@
 define(function (require) {
     'use strict';
-    var $ = require('jquery'),
-        _ = require('underscore'),
-        Backbone = require('backbone'),
-        moment = require('moment');
-    return Backbone.Model.extend({
+    var Backbone = require('deep-model'),
+        moment = require('moment'),
+        NotesCollection = require('app/notes/collections/Notes');
+    return Backbone.DeepModel.extend({
         urlRoot: '/api/computer',
+        initialize: function () {
+            this.on('sync', this.initNotesCollection, this);
+        },
+
+        initNotesCollection: function () {
+            this.notesCollection = new NotesCollection(this.get('notes'));
+            return this;
+        },
+
+        setPurchaseTime: function (purchaseTime) {
+            this.set('purchase_time', moment(purchaseTime).format('YYYY-MM-DDTHH:mm:ss'));
+            return this;
+        },
 
         getPurchaseTimeFormatted: function () {
             var purchaseTime = this.get('purchase_time');
@@ -25,6 +37,27 @@ define(function (require) {
                 return '-';
             }
             return owner.name;
+        },
+
+        getNotesCount: function () {
+            var notes = this.get('notes');
+            return notes ? notes.length : 0;
+        },
+
+        addNote: function (text) {
+            return this;
+        },
+
+        getNotesCollection: function () {
+            if (!this.notesCollection) {
+                this.initNotesCollection();
+            }
+            return this.notesCollection;
+        },
+
+        updateNotes: function () {
+            this.set('notes', this.getNotesCollection().toJSON());
+            return this;
         },
 
         getOwnerId: function () {

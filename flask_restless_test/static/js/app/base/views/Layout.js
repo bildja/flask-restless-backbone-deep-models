@@ -20,9 +20,13 @@ define(function (require) {
         },
 
         setActiveLink: function () {
+            var pathname = location.pathname;
             this.$('.nav li')
                 .removeClass('active')
-                    .find('a[href="' + location.pathname + '"]')
+                    .find('a').filter(function () {
+                        var href = $(this).attr('href');
+                        return href === pathname || pathname.indexOf(href + '/') === 0;
+                    })
                 .closest('li')
                 .addClass('active');
             return this;

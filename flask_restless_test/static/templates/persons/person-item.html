@@ -5,6 +5,9 @@
     <%- model.getBirthDate() %>
 </td>
 <td>
-    <button class="btn btn-info edit-item go-to" data-href="/person/edit/<%= model.get('id') %>">Edit</button>
+    <%= model.getComputersCount() %>
+</td>
+<td>
+    <button class="btn btn-info edit-item go-to" data-href="/person/info/<%= model.get('id') %>">Info</button>
     <button class="btn btn-danger delete-item">Delete</button>
 </td>

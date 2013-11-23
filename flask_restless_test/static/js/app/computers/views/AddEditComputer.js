@@ -8,13 +8,17 @@ define(function (require) {
     return ModalForm.extend({
         template: _.template(addEditComputerTemplate),
         modalSelector: '#add-edit-computer',
-        backUrl: '/computer',
 
         getFormData: function () {
             var $form = this.$('form');
-            return _(['name', 'vendor', 'purchase_time', 'owner_id']).map(function (field) {
+            return _(['name', 'vendor', 'owner_id']).map(function (field) {
                 return [field, $form.find('[name="' + field + '"]').val()]
             }).zipObject().value();
+        },
+
+        saveModel: function () {
+            this.model.setPurchaseTime(this.$('[name=purchase_time]').val());
+            return ModalForm.prototype.saveModel.apply(this, arguments);
         },
 
         initFields: function () {

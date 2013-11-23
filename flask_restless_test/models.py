@@ -1,4 +1,5 @@
 import datetime
+from dateutil.parser import parse as date_parse
 import flask
 import flask.ext.sqlalchemy
 import flask.ext.restless
@@ -34,16 +35,16 @@ class Computer(db.Model):
     owner_id = db.Column(db.Integer, db.ForeignKey('person.id'))
     owner = db.relationship('Person', backref=db.backref('computers',
                                                          lazy='dynamic'))
+    notes = db.relationship('Note')
 
 
 class Note(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    subject = db.Column(db.Unicode)
     text = db.Column(db.Text)
     created_at = db.Column(db.DateTime, default=datetime.datetime.now)
     computer_id = db.Column(db.Integer, db.ForeignKey('computer.id'))
-    computer = db.relationship('Computer', backref=db.backref('notes',
-                                                              lazy='dynamic'))
+    #computer = db.relationship('Computer', backref=db.backref('notes',
+    #                                                          lazy='dynamic'))
 
 
 # Create the database tables.
@@ -52,13 +53,35 @@ db.create_all()
 # Create the Flask-Restless API manager.
 manager = flask.ext.restless.APIManager(app, flask_sqlalchemy_db=db)
 
-# Create API endpoints, which will be available at /api/<tablename> by
+
+def convert_notes_dates(instance_id=None, data=None, **kwargs):
+    if data is None:
+        return
+    if not data.get('notes'):
+        return
+    for note in data['notes']:
+        try:
+            note['created_at'] = date_parse(note['created_at'])
+        except KeyError:
+            pass
+
+
+# Create API endpoints, which will be available at /api/<table-name> by
 # default. Allowed HTTP methods can be specified as well.
 
-manager.create_api(Person,
-                   methods=['GET', 'POST', 'DELETE', 'PUT'],
+# The first one Person api would be used for collections
+manager.create_api(Person, methods=['GET'],
                    include_methods=('computers_count',),
-                   include_columns=('id', 'name', 'birth_date'))
-manager.create_api(Computer, methods=['GET', 'POST', 'DELETE', 'PUT'])
+                   include_columns=('id', 'name', 'birth_date'),
+                   collection_name='people')
+
+# The second one is for items, will have nested computers fields
+manager.create_api(Person, methods=['GET', 'POST', 'DELETE', 'PUT'])
+
+manager.create_api(Computer,
+                   methods=['GET', 'POST', 'DELETE', 'PUT', 'PATCH'],
+                   preprocessors={
+                       'PATCH_SINGLE': (convert_notes_dates,)
+                   })
 manager.create_api(Note, methods=['GET', 'POST', 'DELETE'])
 

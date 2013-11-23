@@ -2,23 +2,17 @@ define(function (require) {
     'use strict';
     var $ = require('jquery'),
         _ = require('underscore'),
-        Backbone = require('backbone'),
+        ModalView = require('app/base/views/ModalView'),
         AjaxChosen = require('app/base/views/AjaxChosen');
-    return Backbone.View.extend({
-        el: 'body',
+    return ModalView.extend({
 
-        events: {
-            'hide.bs.modal .modal': 'goBack',
-            'hidden.bs.modal .modal': 'removeElement',
+        events: _.extend({
             'shown.bs.modal .modal': 'initSelects',
             'submit .modal form': 'saveModel'
-        },
+        }, ModalView.prototype.events),
 
         render: function () {
-            var $addEditModal = this.$el.append(this.template({
-                model: this.model
-            })).find(this.modalSelector);
-            $addEditModal.modal();
+            ModalView.prototype.render.apply(this, arguments);
             return this.initFields();
         },
 
@@ -28,24 +22,6 @@ define(function (require) {
                     el: this
                 }).render();
             });
-            return this;
-        },
-
-        $: function (selector) {
-            return this.$el.find(this.modalSelector).find(selector);
-        },
-
-        goBack: function (evt) {
-            if (evt && !$(evt.target).is(this.modalSelector)){
-                return this;
-            }
-            window.history.back();
-            return this;
-        },
-
-        removeElement: function () {
-            this.undelegateEvents();
-            this.$el.find(this.modalSelector).remove();
             return this;
         },
 
@@ -60,8 +36,7 @@ define(function (require) {
                     });
                 }, this)
             });
-            this.$el.find(this.modalSelector).modal('hide');
-            return this;
+            return this.hideModal();
         }
     });
 });

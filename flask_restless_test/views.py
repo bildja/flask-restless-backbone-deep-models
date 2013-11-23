@@ -8,8 +8,10 @@ from flask_restless_test import models
 @app.route('/computer/page/<page>')
 @app.route('/computer/add')
 @app.route('/computer/edit/<computer_id>')
+@app.route('/computer/notes/<computer_id>')
 @app.route('/person')
-@app.route('/person/<person_id>')
+@app.route('/person/add')
+@app.route('/person/info/<person_id>')
 def index(*args, **kwargs):
     return render_template('index.html')
 
