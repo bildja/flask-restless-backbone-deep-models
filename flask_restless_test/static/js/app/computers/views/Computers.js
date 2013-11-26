@@ -1,7 +1,7 @@
 define(function (require) {
     'use strict';
     var _ = require('underscore'),
-        computersTemplate = require('text!/static/templates/computers/computers.html'),
+        computersTemplate = require('text!templates/computers/computers.html'),
         ComputerItemView = require('app/computers/views/ComputerItem'),
         CollectionView = require('app/base/views/Collection');
     return CollectionView.extend({

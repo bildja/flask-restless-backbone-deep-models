@@ -35,7 +35,7 @@ class Computer(db.Model):
     owner_id = db.Column(db.Integer, db.ForeignKey('person.id'))
     owner = db.relationship('Person', backref=db.backref('computers',
                                                          lazy='dynamic'))
-    notes = db.relationship('Note')
+    notes = db.relationship('Note', backref=db.backref('computer'))
 
 
 class Note(db.Model):
@@ -43,8 +43,6 @@ class Note(db.Model):
     text = db.Column(db.Text)
     created_at = db.Column(db.DateTime, default=datetime.datetime.now)
     computer_id = db.Column(db.Integer, db.ForeignKey('computer.id'))
-    #computer = db.relationship('Computer', backref=db.backref('notes',
-    #                                                          lazy='dynamic'))
 
 
 # Create the database tables.

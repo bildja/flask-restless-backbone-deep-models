@@ -2,7 +2,7 @@ define(function (require) {
     'use strict';
     var _ = require('underscore'),
         Backbone = require('backbone'),
-        paginationTemplate = require('text!/static/templates/base/pagination.html');
+        paginationTemplate = require('text!templates/base/pagination.html');
     return Backbone.View.extend({
         template: _.template(paginationTemplate),
 

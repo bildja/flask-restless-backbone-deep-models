@@ -2,7 +2,7 @@ define(function (require) {
     'use strict';
     var _ = require('underscore'),
         ModalView = require('app/base/views/ModalView'),
-        personInfoTemplate = require('text!/static/templates/persons/person-info.html');
+        personInfoTemplate = require('text!templates/persons/person-info.html');
     return ModalView.extend({
         template: _.template(personInfoTemplate),
         modalSelector: '#person-info',

@@ -9,7 +9,6 @@
         text: 'lib/text',
         datepicker: 'lib/bootstrap-datetimepicker',
         moment: 'lib/moment-with-langs',
-        '/static/js/main': "main",
         chosen: 'lib/chosen.jquery',
         'ajax-chosen': 'lib/ajax-chosen',
         'deep-model': 'lib/backbone-deep-model'

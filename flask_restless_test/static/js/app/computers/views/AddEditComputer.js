@@ -3,7 +3,7 @@ define(function (require) {
     var $ = require('jquery'),
         _ = require('underscore'),
         ModalForm = require('app/base/views/ModalForm'),
-        addEditComputerTemplate = require('text!/static/templates/computers/add-edit-computer.html');
+        addEditComputerTemplate = require('text!templates/computers/add-edit-computer.html');
     require('datepicker');
     return ModalForm.extend({
         template: _.template(addEditComputerTemplate),

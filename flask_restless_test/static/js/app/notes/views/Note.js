@@ -3,7 +3,7 @@ define(function (require) {
     var $ = require('jquery'),
         _ = require('underscore'),
         Backbone = require('backbone'),
-        noteTemplate = require('text!/static/templates/notes/note.html');
+        noteTemplate = require('text!templates/notes/note.html');
     return Backbone.View.extend({
         template: _.template(noteTemplate),
         className: 'note',

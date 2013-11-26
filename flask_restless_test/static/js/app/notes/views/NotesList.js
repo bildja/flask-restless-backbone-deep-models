@@ -3,7 +3,7 @@ define(function (require) {
     var $ = require('jquery'),
         _ = require('underscore'),
         ModalView = require('app/base/views/ModalView'),
-        notesListTemplate = require('text!/static/templates/notes/notes-modal.html'),
+        notesListTemplate = require('text!templates/notes/notes-modal.html'),
         NoteView = require('app/notes/views/Note'),
         Note = require('app/notes/models/Note');
     return ModalView.extend({
