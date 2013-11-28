@@ -3,10 +3,7 @@ from dateutil.parser import parse as date_parse
 import flask
 import flask.ext.sqlalchemy
 import flask.ext.restless
-from flask_restless_test import app
-
-
-db = flask.ext.sqlalchemy.SQLAlchemy(app)
+from flask_restless_test import db, app
 
 
 # Create your Flask-SQLALchemy models as usual but with the following two
@@ -29,7 +26,7 @@ class Person(db.Model):
 
 class Computer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.Unicode, unique=True)
+    name = db.Column(db.Unicode, unique=True, nullable=False)
     vendor = db.Column(db.Unicode)
     purchase_time = db.Column(db.DateTime)
     owner_id = db.Column(db.Integer, db.ForeignKey('person.id'))
@@ -79,7 +76,7 @@ manager.create_api(Person, methods=['GET', 'POST', 'DELETE', 'PUT'])
 manager.create_api(Computer,
                    methods=['GET', 'POST', 'DELETE', 'PUT', 'PATCH'],
                    preprocessors={
-                       'PATCH_SINGLE': (convert_notes_dates,)
+                       'PATCH_SINGLE': (convert_notes_dates,),
+                       'POST': (convert_notes_dates,),
                    })
 manager.create_api(Note, methods=['GET', 'POST', 'DELETE'])
-
