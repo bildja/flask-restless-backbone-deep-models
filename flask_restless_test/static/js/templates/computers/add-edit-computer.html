@@ -9,21 +9,24 @@
           <div class="modal-body">
 
               <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" name="name" class="form-control" id="name" placeholder="Enter name">
+                  <label class="control-label" for="name">Name</label>
+                  <input type="text" name="name" class="form-control" id="name" placeholder="Enter name">
+                  <span class="help-block"></span>
               </div>
               <div class="form-group">
-                <label for="owner">Vendor</label>
-                <input type="text" name="vendor" class="form-control" id="owner" placeholder="Vendor">
+                  <label class="control-label" for="owner">Vendor</label>
+                  <input type="text" name="vendor" class="form-control" id="owner" placeholder="Vendor">
+                  <span class="help-block"></span>
               </div>
               <div class="form-group">
-                  <label for="purchase-time">Purchase time</label>
+                  <label class="control-label" for="purchase-time">Purchase time</label>
                   <input name="purchase_time" id="purchase-time-value" type="hidden" />
                   <div id="purchase-time-picker" class="input-group date" data-date-format="dd MM yyyy hh:ii" data-link-field="purchase-time-value">
-                    <input id="purchase-time" class="form-control" size="16" type="text" />
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                      <input id="purchase-time" class="form-control" size="16" type="text" />
+                      <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                      <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                   </div>
+                  <span class="help-block"></span>
               </div>
               <div class="form-group">
                   <label for="owner_id">Owner</label>
@@ -33,6 +36,7 @@
                       <option value="<%= model.getOwnerId() %>" selected><%- model.getOwnerName() %></option>
                       <% } %>
                   </select>
+                  <span class="help-block"></span>
               </div>
           </div>
           <div class="modal-footer">

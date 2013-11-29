@@ -25,18 +25,29 @@ define(function (require) {
             return this;
         },
 
+        showErrors: function (model, xhr) {
+            var validationErrors = xhr.responseJSON.validation_errors;
+            _(validationErrors).each(function (error, field) {
+                var $formGroup = this.$('[name="' + field + '"]').closest('.form-group');
+                $formGroup.addClass('has-error');
+                $formGroup.find('.help-block').text(error);
+            }, this);
+            return this;
+        },
+
         saveModel: function (evt) {
             if (evt) {
                 evt.preventDefault();
             }
             this.model.save(this.getFormData(), {
                 success: _.bind(function (model) {
-                    this.trigger('model:saved', {
+                    this.hideModal().trigger('model:saved', {
                         model: model
                     });
-                }, this)
+                }, this),
+                error: _.bind(this.showErrors, this)
             });
-            return this.hideModal();
+            return this;
         }
     });
 });

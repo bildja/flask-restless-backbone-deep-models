@@ -87,6 +87,9 @@ define(function (require) {
 
         editComputer: function (id) {
             var computer = this.getComputer(id, this.editComputer);
+            if (!computer) {
+                return this;
+            }
             new AddEditComputerView({
                 model: computer,
                 backUrl: '/computer/page/' + computersCollection.page

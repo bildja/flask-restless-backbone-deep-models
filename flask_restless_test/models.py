@@ -3,7 +3,10 @@ from dateutil.parser import parse as date_parse
 import flask
 import flask.ext.sqlalchemy
 import flask.ext.restless
+from sqlalchemy.orm import validates
 from flask_restless_test import db, app
+from savalidation import ValidationMixin, watch_session, ValidationError
+import savalidation.validators as val
 
 
 # Create your Flask-SQLALchemy models as usual but with the following two
@@ -24,15 +27,17 @@ class Person(db.Model):
         return self.name
 
 
-class Computer(db.Model):
+class Computer(db.Model, ValidationMixin):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.Unicode, unique=True, nullable=False)
-    vendor = db.Column(db.Unicode)
+    name = db.Column(db.Unicode(255), unique=True, nullable=False)
+    vendor = db.Column(db.Unicode(255))
     purchase_time = db.Column(db.DateTime)
     owner_id = db.Column(db.Integer, db.ForeignKey('person.id'))
     owner = db.relationship('Person', backref=db.backref('computers',
                                                          lazy='dynamic'))
     notes = db.relationship('Note', backref=db.backref('computer'))
+
+    val.validates_constraints()
 
 
 class Note(db.Model):
@@ -78,5 +83,6 @@ manager.create_api(Computer,
                    preprocessors={
                        'PATCH_SINGLE': (convert_notes_dates,),
                        'POST': (convert_notes_dates,),
-                   })
+                   },
+                   validation_exceptions=[ValidationError])
 manager.create_api(Note, methods=['GET', 'POST', 'DELETE'])

@@ -186,8 +186,74 @@ class TestAPI(FlaskRestlessTestCase):
         response_json = response.json
         self.assertListEqual(response_json[u'computers'], [computer_data])
 
+    def test_computer_invalid(self):
+        computer_data = {
+            u'vendor': u"Some vendor",
+            u'purchase_time': u"2013-11-11T11:11:11"
+        }
+        response = self.client.post('/api/computer',
+                                    data=json.dumps(computer_data),
+                                    content_type='application/json')
+        self.assert400(response)
+        self.assertDictEqual(response.json, {
+            u'validation_errors': {
+                u'name': u'Please enter a value'
+            }
+        })
+        computer_data[u'name'] = u''
+        response = self.client.post('/api/computer',
+                                    data=json.dumps(computer_data),
+                                    content_type='application/json')
+        self.assert400(response)
+        self.assertDictEqual(response.json, {
+            u'validation_errors': {
+                u'name': u'Please enter a value'
+            }
+        })
+
     def test_computers_paging(self):
-        pass
+        for i in range(5):
+            self.client.post('/api/computer', data=json.dumps({
+                u'name': u"Computer{}".format(i + 1),
+                u'vendor': u"Vendor{}".format(i + 1),
+                u'purchase_time': u"2013-11-11T11:11:11",
+            }), content_type='application/json')
+        response = self.client.get('/api/computer', content_type='application/json')
+        self.assert200(response)
+        self.assertEqual(len(response.json['objects']), 5)
+        self.assertEqual(response.json['num_results'], 5)
+        self.assertEqual(response.json['page'], 1)
+        self.assertEqual(response.json['total_pages'], 1)
+        for i in range(5, 25):
+            self.client.post('/api/computer', data=json.dumps({
+                u'name': u"Computer{}".format(i + 1),
+                u'vendor': u"Vendor{}".format(i + 1),
+                u'purchase_time': u"2013-11-11T11:11:11",
+            }), content_type='application/json')
+        response = self.client.get('/api/computer', content_type='application/json')
+        self.assert200(response)
+        self.assertEqual(len(response.json['objects']), 10)
+        self.assertEqual(response.json['num_results'], 25)
+        self.assertEqual(response.json['page'], 1)
+        self.assertEqual(response.json['total_pages'], 3)
+        response = self.client.get('/api/computer?page=1', content_type='application/json')
+        self.assert200(response)
+        self.assertEqual(len(response.json['objects']), 10)
+        self.assertEqual(response.json['num_results'], 25)
+        self.assertEqual(response.json['page'], 1)
+        self.assertEqual(response.json['total_pages'], 3)
+        response = self.client.get('/api/computer?page=2', content_type='application/json')
+        self.assert200(response)
+        self.assertEqual(len(response.json['objects']), 10)
+        self.assertEqual(response.json['num_results'], 25)
+        self.assertEqual(response.json['page'], 2)
+        self.assertEqual(response.json['total_pages'], 3)
+        response = self.client.get('/api/computer?page=3', content_type='application/json')
+        self.assert200(response)
+        self.assertEqual(len(response.json['objects']), 5)
+        self.assertEqual(response.json['num_results'], 25)
+        self.assertEqual(response.json['page'], 3)
+        self.assertEqual(response.json['total_pages'], 3)
 
 
 if __name__ == '__main__':
