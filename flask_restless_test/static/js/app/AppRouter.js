@@ -92,7 +92,7 @@ define(function (require) {
             }
             new AddEditComputerView({
                 model: computer,
-                backUrl: '/computer/page/' + computersCollection.page
+                backUrl: '/computer/page/' + (computersCollection.page || 1)
             }).render();
             return this;
         },
@@ -104,7 +104,7 @@ define(function (require) {
             }
             new NotesView({
                 model: computer,
-                backUrl: '/computer/page/' + computersCollection.page
+                backUrl: '/computer/page/' + (computersCollection.page || 1)
             }).render();
             return this;
         },
@@ -155,7 +155,7 @@ define(function (require) {
             }
             var addComputerView = new AddEditComputerView({
                 model: new Computer(),
-                backUrl: '/computer/page/' + computersCollection.page
+                backUrl: '/computer/page/' + (computersCollection.page || 1)
             }).render();
             addComputerView.on('model:saved', this.addModelToCollection(computersCollection));
             return this;

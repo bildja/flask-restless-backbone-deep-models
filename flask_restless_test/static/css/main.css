@@ -9,3 +9,15 @@ body {
 .tomato {
     background-color: tomato;
 }
+
+.owner-subform {
+    display: none;
+}
+
+.owner-subform .form-group {
+    padding-left: 20%;
+}
+
+.add-owner-wrapper label {
+    font-weight: normal;
+}

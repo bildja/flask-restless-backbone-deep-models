@@ -30,13 +30,32 @@
               </div>
               <div class="form-group">
                   <label for="owner_id">Owner</label>
-                  <select name="owner_id" id="owner_id" data-search-field="name" data-placeholder="Search an owner..." style="width: 538px;" class="form-control chosen-select" data-url="/api/person" data-text-field="name" data-value-field="id">
-                      <option></option>
-                      <% if (model.get('owner')) { %>
-                      <option value="<%= model.getOwnerId() %>" selected><%- model.getOwnerName() %></option>
-                      <% } %>
-                  </select>
-                  <span class="help-block"></span>
+                  <span class="add-owner-wrapper pull-right">
+                      <label for="add-owner">Add new person</label>
+                      <input type="checkbox" name="add-owner" id="add-owner" />
+                  </span>
+                  <div class="choose-owner">
+                      <select name="owner_id" id="owner_id" data-search-field="name" data-placeholder="Search an owner..." style="width: 538px;" class="form-control chosen-select" data-url="/api/person" data-text-field="name" data-value-field="id">
+                          <option></option>
+                          <% if (model.get('owner')) { %>
+                          <option value="<%= model.getOwnerId() %>" selected><%- model.getOwnerName() %></option>
+                          <% } %>
+                      </select>
+                      <span class="help-block"></span>
+                  </div>
+                  <div class="owner-subform">
+                      <div class="form-group">
+                          <input type="text" class="form-control" id="owner.name" name="owner.name" placeholder="Enter owner name">
+                      </div>
+                      <div class="form-group">
+                          <input name="owner.birth_date" id="birth-date-value" type="hidden" />
+                          <div id="birth-date-picker" class="input-group date" data-format-view-type="date" data-min-view="month" data-date-format="dd MM yyyy" data-link-field="birth-date-value">
+                            <input id="birth-date" class="form-control" size="16" type="text" />
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                          </div>
+                      </div>
+                  </div>
               </div>
           </div>
           <div class="modal-footer">

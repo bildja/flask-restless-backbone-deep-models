@@ -1,11 +1,10 @@
 import datetime
-from dateutil.parser import parse as date_parse
 import flask
 import flask.ext.sqlalchemy
 import flask.ext.restless
 from sqlalchemy.orm import validates
 from flask_restless_test import db, app
-from savalidation import ValidationMixin, watch_session, ValidationError
+from savalidation import ValidationMixin, ValidationError
 import savalidation.validators as val
 
 
@@ -54,18 +53,6 @@ db.create_all()
 manager = flask.ext.restless.APIManager(app, flask_sqlalchemy_db=db)
 
 
-def convert_notes_dates(instance_id=None, data=None, **kwargs):
-    if data is None:
-        return
-    if not data.get('notes'):
-        return
-    for note in data['notes']:
-        try:
-            note['created_at'] = date_parse(note['created_at'])
-        except KeyError:
-            pass
-
-
 # Create API endpoints, which will be available at /api/<table-name> by
 # default. Allowed HTTP methods can be specified as well.
 
@@ -80,9 +67,5 @@ manager.create_api(Person, methods=['GET', 'POST', 'DELETE', 'PUT'])
 
 manager.create_api(Computer,
                    methods=['GET', 'POST', 'DELETE', 'PUT', 'PATCH'],
-                   preprocessors={
-                       'PATCH_SINGLE': (convert_notes_dates,),
-                       'POST': (convert_notes_dates,),
-                   },
                    validation_exceptions=[ValidationError])
 manager.create_api(Note, methods=['GET', 'POST', 'DELETE'])

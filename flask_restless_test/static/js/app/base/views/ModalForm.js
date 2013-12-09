@@ -1,19 +1,22 @@
 define(function (require) {
     'use strict';
-    var $ = require('jquery'),
-        _ = require('underscore'),
+    var _ = require('underscore'),
         ModalView = require('app/base/views/ModalView'),
         AjaxChosen = require('app/base/views/AjaxChosen');
     return ModalView.extend({
 
         events: _.extend({
-            'shown.bs.modal .modal': 'initSelects',
+            'shown.bs.modal .modal': 'renderCustomFields',
             'submit .modal form': 'saveModel'
         }, ModalView.prototype.events),
 
         render: function () {
             ModalView.prototype.render.apply(this, arguments);
             return this.initFields();
+        },
+
+        renderCustomFields: function () {
+            return this.initSelects();
         },
 
         initSelects: function () {

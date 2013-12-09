@@ -9,18 +9,9 @@ define(function (require) {
 
         initialize: function () {
             var collection = this.collection;
-            this.listenTo(collection, 'sync', function () {
-                console.log('sync');
-                this.renderPaging()
-            });
-            this.listenTo(collection, 'add', function () {
-                console.log('add');
-                this.renderItem.apply(this, arguments);
-            });
-            this.listenTo(collection, 'page:change', function () {
-                console.log('page:change');
-                this.renderCollectionPage()
-            });
+            this.listenTo(collection, 'sync', this.renderPaging);
+            this.listenTo(collection, 'add', this.renderItem);
+            this.listenTo(collection, 'page:change', this.renderCollectionPage);
         },
 
         renderCollectionPage: function () {
@@ -29,7 +20,6 @@ define(function (require) {
                 collection: this.collection
             }));
             var isRendered = !!this.collection.length;
-            console.log(this.collection.length);
             $el.find('.items-list').toggle(isRendered)
                 .end()
                 .find('.no-items').toggle(!isRendered);
