@@ -50,7 +50,6 @@ define(function (require) {
         },
 
         renderPurchaseTime: function () {
-            console.log(arguments);
             this.$('.computer-purchase-time')
                 .text(this.model.getPurchaseTimeFormatted())
                 .tomato();
@@ -58,9 +57,6 @@ define(function (require) {
         },
 
         render: function () {
-            if (this.model.get('id') === 29) {
-//                debugger;
-            }
             this.$el.html(this.template({
                 model: this.model
             }));

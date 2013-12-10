@@ -22,6 +22,11 @@ define(function (require) {
                 return computersCount;
             }
             return computers ? computers.length : 0;
+        },
+
+        increaseComputersCount: function () {
+            this.set('computers_count', this.get('computers_count') + 1);
+            return this;
         }
     });
 });

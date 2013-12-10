@@ -116,7 +116,6 @@ define(function (require) {
         },
 
         persons: function () {
-            console.log('persons');
             if (!personsCollection){
                 personsCollection = new PersonsCollection();
             }
@@ -158,6 +157,16 @@ define(function (require) {
                 backUrl: '/computer/page/' + (computersCollection.page || 1)
             }).render();
             addComputerView.on('model:saved', this.addModelToCollection(computersCollection));
+            this.listenTo(addComputerView, 'model:saved', this.addComputersCount);
+            return this;
+        },
+
+        addComputersCount: function (options) {
+            if (!(options.wasNew && personsCollection)) {
+                return this;
+            }
+            var person = personsCollection.get(options.model.get('owner_id'));
+            person.increaseComputersCount();
             return this;
         },
 

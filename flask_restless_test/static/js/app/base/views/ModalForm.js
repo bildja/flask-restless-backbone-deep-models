@@ -42,10 +42,12 @@ define(function (require) {
             if (evt) {
                 evt.preventDefault();
             }
+            var isNew = this.model.isNew();
             this.model.save(this.getFormData(), {
                 success: _.bind(function (model) {
                     this.hideModal().trigger('model:saved', {
-                        model: model
+                        model: model,
+                        wasNew: isNew
                     });
                 }, this),
                 error: _.bind(this.showErrors, this)

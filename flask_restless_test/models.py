@@ -2,10 +2,9 @@ import datetime
 import flask
 import flask.ext.sqlalchemy
 import flask.ext.restless
-from sqlalchemy.orm import validates
 from flask_restless_test import db, app
 from savalidation import ValidationMixin, ValidationError
-import savalidation.validators as val
+import savalidation.validators as Val
 
 
 # Create your Flask-SQLALchemy models as usual but with the following two
@@ -36,7 +35,7 @@ class Computer(db.Model, ValidationMixin):
                                                          lazy='dynamic'))
     notes = db.relationship('Note', backref=db.backref('computer'))
 
-    val.validates_constraints()
+    Val.validates_constraints()
 
 
 class Note(db.Model):
