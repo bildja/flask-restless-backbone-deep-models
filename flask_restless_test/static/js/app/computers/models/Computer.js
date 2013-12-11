@@ -8,7 +8,23 @@ define(function (require) {
         urlRoot: '/api/computer',
         initialize: function () {
             this.on('sync', this.initNotesCollection, this);
-            this.on('destroy', this.fireMediatorEvent)
+            this.on('destroy', this.fireMediatorEvent);
+            this.on('change:owner_id', this.ownerChanged, this);
+        },
+
+        ownerChanged: function (computer, ownerId) {
+            var previousOwnerId = computer.previousAttributes().owner_id;
+            // Yes, we do need "==", but not "===", because it could change
+            // from the string value "2" to the number value 2
+            // which we don't care about.
+            if (ownerId == previousOwnerId || !previousOwnerId) {
+                return this;
+            }
+            Backbone.Mediator.pub('change:owner', {
+                from: parseInt(previousOwnerId, 10),
+                to: parseInt(ownerId, 10)
+            });
+            return this;
         },
 
         fireMediatorEvent: function () {
