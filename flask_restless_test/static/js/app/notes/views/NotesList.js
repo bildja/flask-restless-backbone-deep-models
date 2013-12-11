@@ -1,7 +1,6 @@
 define(function (require) {
     'use strict';
-    var $ = require('jquery'),
-        _ = require('underscore'),
+    var _ = require('underscore'),
         ModalView = require('app/base/views/ModalView'),
         notesListTemplate = require('text!templates/notes/notes-modal.html'),
         NoteView = require('app/notes/views/Note'),
@@ -18,6 +17,7 @@ define(function (require) {
         initialize: function () {
             ModalView.prototype.initialize.apply(this, arguments);
             this.listenTo(this.model.getNotesCollection(), 'add remove change', this.renderNotesList);
+            return this;
         },
 
         renderNotesList: function () {
@@ -48,6 +48,12 @@ define(function (require) {
                 computer_id: this.model.get('id')
             }));
             $text.val('');
+            return this;
+        },
+
+        onModalHide: function () {
+            ModalView.prototype.onModalHide.apply(this, arguments);
+            this.model.initNotesCollection();
             return this;
         },
 

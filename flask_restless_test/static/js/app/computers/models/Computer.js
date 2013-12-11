@@ -3,10 +3,19 @@ define(function (require) {
     var Backbone = require('deep-model'),
         moment = require('moment'),
         NotesCollection = require('app/notes/collections/Notes');
+    require('backbone-mediator');
     return Backbone.DeepModel.extend({
         urlRoot: '/api/computer',
         initialize: function () {
             this.on('sync', this.initNotesCollection, this);
+            this.on('destroy', this.fireMediatorEvent)
+        },
+
+        fireMediatorEvent: function () {
+            Backbone.Mediator.pub('destroy:computer', {
+                computer: this
+            });
+            return this;
         },
 
         initNotesCollection: function () {

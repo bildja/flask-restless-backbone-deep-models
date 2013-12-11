@@ -6,8 +6,13 @@ define(function (require) {
     return Backbone.View.extend({
         el: 'body',
         events: {
-            'hide.bs.modal .modal': 'goBack',
+            'hide.bs.modal .modal': 'onModalHide',
             'hidden.bs.modal .modal': 'removeElement'
+        },
+
+        onModalHide: function () {
+            this.goBack.apply(this, arguments);
+            return this;
         },
 
         initialize: function (options) {

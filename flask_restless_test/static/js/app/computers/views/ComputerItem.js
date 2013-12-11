@@ -1,7 +1,6 @@
 define(function (require) {
     'use strict';
-    var $ = require('jquery'),
-        _ = require('underscore'),
+    var _ = require('underscore'),
         BaseItemView = require('app/base/views/Item'),
         computerItemTemplate = require('text!templates/computers/computer-item.html');
     return BaseItemView.extend({

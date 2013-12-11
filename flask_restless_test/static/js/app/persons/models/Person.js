@@ -1,8 +1,6 @@
 define(function (require) {
     'use strict';
-    var $ = require('jquery'),
-        _ = require('underscore'),
-        Backbone = require('backbone'),
+    var Backbone = require('backbone'),
         moment = require('moment');
     return Backbone.Model.extend({
         urlRoot: '/api/person',
@@ -26,6 +24,11 @@ define(function (require) {
 
         increaseComputersCount: function () {
             this.set('computers_count', this.get('computers_count') + 1);
+            return this;
+        },
+
+        decreaseComputersCount: function () {
+            this.set('computers_count', this.get('computers_count') - 1);
             return this;
         }
     });

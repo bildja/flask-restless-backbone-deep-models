@@ -1,7 +1,6 @@
 define(function (require) {
     'use strict';
-    var $ = require('jquery'),
-        _ = require('underscore'),
+    var _ = require('underscore'),
         Backbone = require('backbone'),
         noteTemplate = require('text!templates/notes/note.html');
     return Backbone.View.extend({

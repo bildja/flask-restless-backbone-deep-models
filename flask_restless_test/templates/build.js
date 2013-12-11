@@ -1,3 +1,4 @@
+//noinspection BadExpressionStatementJS
 ({
     baseUrl: '/static/js',
     urlArgs: '_=' + new Date().getTime(),
@@ -11,7 +12,8 @@
         moment: 'lib/moment-with-langs',
         chosen: 'lib/chosen.jquery',
         'ajax-chosen': 'lib/ajax-chosen',
-        'deep-model': 'lib/backbone-deep-model'
+        'deep-model': 'lib/backbone-deep-model',
+        'backbone-mediator': 'lib/backbone-mediator'
 //        'main': 'main-build'
     },
     shim: {
