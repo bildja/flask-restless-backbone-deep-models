@@ -59,6 +59,7 @@ manager = flask.ext.restless.APIManager(app, flask_sqlalchemy_db=db)
 manager.create_api(Person, methods=['GET'],
                    include_methods=('computers_count',),
                    include_columns=('id', 'name', 'birth_date'),
+                   allow_functions=True,
                    collection_name='people')
 
 # The second one is for items, will have nested computers fields

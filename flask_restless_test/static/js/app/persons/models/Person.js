@@ -1,8 +1,8 @@
 define(function (require) {
     'use strict';
-    var Backbone = require('backbone'),
+    var Backbone = require('deep-model'),
         moment = require('moment');
-    return Backbone.Model.extend({
+    return Backbone.DeepModel.extend({
         urlRoot: '/api/person',
 
         getBirthDate: function () {
