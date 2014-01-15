@@ -16,6 +16,8 @@ require.config({
         jasmine: '../test/jasmine/lib/jasmine',
         'jasmine-html': '../test/jasmine/lib/jasmine-html',
         'jasmine-boot': '../test/jasmine/lib/boot',
+        'jasmine-jquery': '../test/jasmine/lib/jasmine-jquery',
+
         spec: '../test/jasmine/spec/'
 //        'main': 'main-build'
     },
@@ -41,6 +43,10 @@ require.config({
         },
         jasmine: {
             exports: 'jasmineRequire'
+        },
+        'jasmine-jquery': {
+            deps: ['jquery'],
+            exports: 'jasmine'
         },
         'jasmine-html': {
             deps: ['jasmine'],

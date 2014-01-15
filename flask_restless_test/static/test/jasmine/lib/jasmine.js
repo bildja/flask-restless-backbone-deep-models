@@ -2208,7 +2208,9 @@ getJasmineRequireObj().toThrow = function(j$) {
         }
 
         try {
+            console.log('before actual');
           actual();
+            console.log('after actual');
         } catch (e) {
           threw = true;
           thrown = e;

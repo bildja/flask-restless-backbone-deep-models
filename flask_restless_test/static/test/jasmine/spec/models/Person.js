@@ -55,21 +55,25 @@ describe('Model : Person', function () {
             this.person.fetch();
         });
 
+         it("from url", function () {
+             expect($.ajax.calls.mostRecent().args[0].url).toBe('/api/person/1');
+         });
+
         it("has model data", function () {
-            expect(this.person.get('id')).toEqual(1);
-            expect(this.person.get('name')).toEqual("Person name");
-            expect(this.person.get('birth_date')).toEqual("1972-10-10");
-            expect(this.person.get('computers.0.id')).toEqual(1);
-            expect(this.person.get('computers.0.name')).toEqual("MacBook Pro");
-            expect(this.person.get('computers.0.vendor')).toEqual("Apple");
+            expect(this.person.get('id')).toBe(1);
+            expect(this.person.get('name')).toBe("Person name");
+            expect(this.person.get('birth_date')).toBe("1972-10-10");
+            expect(this.person.get('computers.0.id')).toBe(1);
+            expect(this.person.get('computers.0.name')).toBe("MacBook Pro");
+            expect(this.person.get('computers.0.vendor')).toBe("Apple");
         });
 
         it("calculates computers count", function () {
-            expect(this.person.getComputersCount()).toEqual(2);
+            expect(this.person.getComputersCount()).toBe(2);
         });
 
         it("has Birth Date formatted (no matter how it fetched)", function () {
-            expect(this.person.getBirthDate()).toEqual("10 Oct 1972");
+            expect(this.person.getBirthDate()).toBe("10 Oct 1972");
         });
 
     });
@@ -100,7 +104,7 @@ describe('Model : Person', function () {
 
             it("with the correct url and date", function () {
                 var ajaxArgs = $.ajax.calls.mostRecent().args[0];
-                expect(ajaxArgs.url).toEqual('/api/people');
+                expect(ajaxArgs.url).toBe('/api/people');
                 expect(ajaxArgs.data).toEqual({
                     page: PAGE_NUMBER
                 });
@@ -132,7 +136,7 @@ describe('Model : Person', function () {
             });
 
             it("length", function () {
-                expect(this.personsCollection.length).toEqual(1);
+                expect(this.personsCollection.length).toBe(1);
             });
         });
 
@@ -147,17 +151,17 @@ describe('Model : Person', function () {
             });
 
             it("calculates computers count", function () {
-                expect(this.person.getComputersCount()).toEqual(COMPUTERS_COUNT);
+                expect(this.person.getComputersCount()).toBe(COMPUTERS_COUNT);
             });
 
             it("increases count", function () {
                 this.person.increaseComputersCount();
-                expect(this.person.getComputersCount()).toEqual(COMPUTERS_COUNT + 1);
+                expect(this.person.getComputersCount()).toBe(COMPUTERS_COUNT + 1);
             });
 
             it("decreases count", function () {
                 this.person.decreaseComputersCount();
-                expect(this.person.getComputersCount()).toEqual(COMPUTERS_COUNT - 1);
+                expect(this.person.getComputersCount()).toBe(COMPUTERS_COUNT - 1);
             });
         });
 

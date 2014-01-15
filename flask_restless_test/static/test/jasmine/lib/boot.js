@@ -156,9 +156,11 @@
   window.clearInterval = window.clearInterval;
 
 
-  require(['underscore', 'jquery', 'jasmine-boot'], function (_, $, jasmine) {
+  require(['underscore', 'jquery', 'jasmine-jquery'], function (_, $) {
     var specs = [
-        'spec/models/Person'
+        'spec/models/Person',
+        'spec/views/PersonInfo',
+        'spec/jasmine-jquery-spec'
     ];
 
     $(function () {
