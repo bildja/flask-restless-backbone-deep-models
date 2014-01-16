@@ -13,6 +13,7 @@ require.config({
         'ajax-chosen': 'lib/ajax-chosen',
         'deep-model': 'lib/backbone-deep-model',
         'backbone-mediator': 'lib/backbone-mediator',
+        locationUtil: 'app/base/locationUtil',
         jasmine: '../test/jasmine/lib/jasmine',
         'jasmine-html': '../test/jasmine/lib/jasmine-html',
         'jasmine-boot': '../test/jasmine/lib/boot',

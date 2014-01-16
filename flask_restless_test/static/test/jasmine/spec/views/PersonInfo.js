@@ -13,8 +13,8 @@ describe("Person info view", function () {
             },
             {
                 id: 2,
-                name: "MacBook Air",
-                vendor: "Apple",
+                name: "VTS31",
+                vendor: "Sony",
                 owner_id: 1,
                 purchase_time: "2014-01-11T23:01:06"
             }
@@ -29,13 +29,51 @@ describe("Person info view", function () {
                 model: person,
                 el: '#sandbox'
             });
+            this.personInfoView.render();
             done();
         }.bind(this));
-        setFixtures(sandbox({style: 'display:none;'}))
+        setFixtures(sandbox())
     });
 
     it("renders", function () {
-        this.personInfoView.render();
-        expect($('#sandbox')).toContain('#person-info.modal');
+        expect($('#sandbox')).toContainElement('#person-info.modal');
+    });
+
+    it("gets the correct backUrl", function () {
+        expect(typeof this.personInfoView.backUrl).toBe('function');
+        expect(this.personInfoView.backUrl()).toBe('/person');
+    });
+
+    it("has title", function () {
+        var $sandbox = $('#sandbox');
+        expect($sandbox).toContainElement('h4.modal-title');
+        expect($sandbox.find('h4.modal-title')).toContainText("Person name info");
+    });
+
+    it("shows name of person", function () {
+        var $sandbox = $('#sandbox');
+        expect($sandbox).toContainHtml('<label>Name: </label>');
+        expect($sandbox).toContainHtml('<span>Person name</span>');
+    });
+
+    it("shows birth date of person", function () {
+        var $sandbox = $('#sandbox');
+        expect($sandbox).toContainHtml('<label>Birth Date: </label>');
+        expect($sandbox).toContainHtml('<span>10 Oct 1972</span>');
+    });
+
+    it("shows computers count", function () {
+        expect($('#sandbox')).toContainText("Person name has purchased 2 computers");
+    });
+
+    it("shows computers list", function () {
+        var $table = $('#sandbox').find('table');
+        expect($table).toExist();
+        var $tr = $table.find('tbody tr');
+        expect($tr.length).toBe(2);
+        expect($tr.eq(0)).toContainText('MacBook Pro');
+        expect($tr.eq(0)).toContainText('Apple');
+        expect($tr.eq(1)).toContainText('VTS31');
+        expect($tr.eq(1)).toContainText('Sony');
     });
 });

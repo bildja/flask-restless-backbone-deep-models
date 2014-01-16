@@ -13,7 +13,8 @@
         chosen: 'lib/chosen.jquery',
         'ajax-chosen': 'lib/ajax-chosen',
         'deep-model': 'lib/backbone-deep-model',
-        'backbone-mediator': 'lib/backbone-mediator'
+        'backbone-mediator': 'lib/backbone-mediator',
+        locationUtil: 'app/base/locationUtil'
 //        'main': 'main-build'
     },
     shim: {

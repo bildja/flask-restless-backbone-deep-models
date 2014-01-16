@@ -1,12 +1,14 @@
 define(function (require) {
     'use strict';
     var $ = require('jquery'),
-        Backbone = require('backbone');
+        Backbone = require('backbone'),
+        locationUtil = require('locationUtil');
     return Backbone.View.extend({
         el: 'body',
         events: {
             'click a, .go-to': 'pushState'
         },
+
         pushState: function (evt) {
             evt.preventDefault();
             var $target = $(evt.target),
@@ -20,7 +22,7 @@ define(function (require) {
         },
 
         setActiveLink: function () {
-            var pathname = location.pathname;
+            var pathname = locationUtil.getPathname();
             this.$('.nav li')
                 .removeClass('active')
                     .find('a').filter(function () {

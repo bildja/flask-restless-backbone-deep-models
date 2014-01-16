@@ -160,7 +160,8 @@
     var specs = [
         'spec/models/Person',
         'spec/views/PersonInfo',
-        'spec/jasmine-jquery-spec'
+        'spec/views/Layout'
+//        'spec/jasmine-jquery-spec'
     ];
 
     $(function () {
