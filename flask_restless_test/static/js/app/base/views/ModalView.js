@@ -16,6 +16,7 @@ define(function (require) {
         },
 
         initialize: function (options) {
+            options = options || {};
             if (options.backUrl) {
                 this.backUrl = options.backUrl;
             }

@@ -160,7 +160,10 @@
     var specs = [
         'spec/models/Person',
         'spec/views/PersonInfo',
-        'spec/views/Layout'
+        'spec/views/Layout',
+        'spec/views/PersonItem',
+        'spec/views/PersonsList',
+        'spec/views/AddEditPerson'
 //        'spec/jasmine-jquery-spec'
     ];
 

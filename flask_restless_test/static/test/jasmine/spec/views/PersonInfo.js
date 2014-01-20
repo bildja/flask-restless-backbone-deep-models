@@ -35,8 +35,16 @@ describe("Person info view", function () {
         setFixtures(sandbox())
     });
 
+    afterEach(function () {
+        $('.modal-backdrop').remove();
+    });
+
     it("renders", function () {
         expect($('#sandbox')).toContainElement('#person-info.modal');
+    });
+
+    it("returns this when renders", function () {
+        expect(this.personInfoView.render()).toBe(this.personInfoView);
     });
 
     it("gets the correct backUrl", function () {

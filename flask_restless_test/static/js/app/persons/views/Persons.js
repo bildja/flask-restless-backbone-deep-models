@@ -1,7 +1,6 @@
 define(function (require) {
     'use strict';
-    var $ = require('jquery'),
-        _ = require('underscore'),
+    var _ = require('underscore'),
         CollectionView = require('app/base/views/Collection'),
         personsTemplate = require('text!templates/persons/persons.html'),
         PersonItemView = require('app/persons/views/PersonItem');
