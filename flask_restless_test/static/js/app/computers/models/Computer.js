@@ -8,7 +8,7 @@ define(function (require) {
         urlRoot: '/api/computer',
         initialize: function () {
             this.on('sync', this.initNotesCollection, this);
-            this.on('destroy', this.fireMediatorEvent);
+            this.on('destroy', this.fireDestroyMediatorEvent);
             this.on('change:owner_id', this.ownerChanged, this);
         },
 
@@ -27,7 +27,7 @@ define(function (require) {
             return this;
         },
 
-        fireMediatorEvent: function () {
+        fireDestroyMediatorEvent: function () {
             Backbone.Mediator.pub('destroy:computer', {
                 computer: this
             });
@@ -67,10 +67,6 @@ define(function (require) {
         getNotesCount: function () {
             var notes = this.get('notes');
             return notes ? notes.length : 0;
-        },
-
-        addNote: function (text) {
-            return this;
         },
 
         getNotesCollection: function () {

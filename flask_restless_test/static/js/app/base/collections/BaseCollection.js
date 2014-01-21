@@ -30,11 +30,7 @@ define(function (require) {
                             page: page
                         });
             if (options.fetch) {
-                this.fetch({
-                    success: function () {
-
-                    }.bind(this)
-                });
+                this.fetch();
             }
             return this;
         }
