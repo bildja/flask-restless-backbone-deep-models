@@ -13,10 +13,12 @@ import savalidation.validators as Val
 #   2. They must have an __init__ method which accepts keyword arguments for
 #      all columns (the constructor in flask.ext.sqlalchemy.SQLAlchemy.Model
 #      supplies such a method, so you don't need to declare a new one).
-class Person(db.Model):
+class Person(db.Model, ValidationMixin):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.Unicode, unique=True)
+    name = db.Column(db.Unicode(255), unique=True, nullable=False)
     birth_date = db.Column(db.Date)
+
+    Val.validates_constraints()
 
     def computers_count(self):
         return self.computers.count()
@@ -63,7 +65,9 @@ manager.create_api(Person, methods=['GET'],
                    collection_name='people')
 
 # The second one is for items, will have nested computers fields
-manager.create_api(Person, methods=['GET', 'POST', 'DELETE', 'PUT'])
+manager.create_api(Person,
+                   methods=['GET', 'POST', 'DELETE', 'PUT'],
+                   validation_exceptions=[ValidationError])
 
 manager.create_api(Computer,
                    methods=['GET', 'POST', 'DELETE', 'PUT', 'PATCH'],

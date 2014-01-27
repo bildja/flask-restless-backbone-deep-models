@@ -164,7 +164,10 @@
         'spec/views/PersonItem',
         'spec/views/PersonsList',
         'spec/views/AddEditPerson',
-        'spec/models/Computer'
+        'spec/models/Computer',
+        'spec/models/Note',
+        'spec/views/Note',
+        'spec/views/NotesList'
 //        'spec/jasmine-jquery-spec'
     ];
 
