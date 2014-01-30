@@ -31,8 +31,12 @@ define(function (require) {
             return this;
         },
 
+        findModal: function () {
+            return this.$el.find(this.modalSelector);
+        },
+
         $: function (selector) {
-            return this.$el.find(this.modalSelector).find(selector);
+            return this.findModal().find(selector);
         },
 
         goBack: function (evt) {
@@ -47,12 +51,12 @@ define(function (require) {
 
         removeElement: function () {
             this.undelegateEvents();
-            this.$el.find(this.modalSelector).remove();
+            this.findModal().remove();
             return this;
         },
 
         hideModal: function () {
-            this.$el.find(this.modalSelector).modal('hide');
+            this.findModal().modal('hide');
             return this;
         }
 

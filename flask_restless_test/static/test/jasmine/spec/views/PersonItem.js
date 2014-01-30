@@ -1,4 +1,4 @@
-describe('PersonItem View', function () {
+describe('View : PersonItem', function () {
     var mockPersonData = {
         id: 7,
         name: "Ivan",

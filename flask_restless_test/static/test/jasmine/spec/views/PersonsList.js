@@ -1,4 +1,4 @@
-describe('PersonsList View', function () {
+describe('View : PersonsList', function () {
     var personsMockData = [
         {
             id: 7,
@@ -36,6 +36,7 @@ describe('PersonsList View', function () {
             'app/persons/views/PersonItem'
         ], function (PersonsView, PersonsCollection, PersonItem) {
             this.personsCollection = new PersonsCollection();
+            this.PersonsCollection = PersonsCollection;
             spyOn($, 'ajax').and.callFake(function (options) {
                 options.success({
                     objects: personsMockData
@@ -45,6 +46,7 @@ describe('PersonsList View', function () {
             this.personsView = new PersonsView({
                 collection: this.personsCollection
             });
+            this.PersonsView = PersonsView;
             this.PersonItem = PersonItem;
 
             done();
@@ -86,6 +88,37 @@ describe('PersonsList View', function () {
 
         it("shows correct number of rows", function () {
             expect($(this.el).find('#list-tbody').find('tr').length).toBe(4);
+        });
+
+        it("does not show `no items` message when there are items", function () {
+            expect(this.personsView.$('.no-items')).toBeHidden();
+        });
+    });
+
+    describe("if no items", function () {
+        beforeEach(function () {
+            this.noItemsPersonsView = new this.PersonsView({
+                collection: new this.PersonsCollection()
+            }).render();
+        });
+
+        it("shows `no items` message when there are no items", function () {
+            expect(this.noItemsPersonsView.el).toContainElement('.no-items');
+            var $noItemsElement = this.noItemsPersonsView.$('.no-items');
+            expect($noItemsElement).toBeVisible();
+            expect(this.noItemsPersonsView.$('.persons-list')).toBeHidden();
+            expect($noItemsElement).toHaveText("No persons yet.");
+        });
+
+        it("after adding an item hides `no persons", function () {
+            this.noItemsPersonsView.collection.add({
+                id: 9,
+                name: "Nick",
+                birth_date: "1985-11-11",
+                computers_count: 2
+            });
+            expect(this.noItemsPersonsView.$('.persons-list')).toBeVisible();
+            expect(this.noItemsPersonsView.$('.no-items')).toBeHidden();
         });
     });
 

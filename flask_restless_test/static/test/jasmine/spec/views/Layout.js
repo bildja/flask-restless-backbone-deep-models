@@ -1,4 +1,4 @@
-describe('Layout view', function () {
+describe("View : Layout", function () {
     var defaultFixturesPath;
 
     beforeEach(function (done) {

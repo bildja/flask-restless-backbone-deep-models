@@ -10,6 +10,7 @@ describe("View : Notes list", function () {
         ], function (NotesListView, NoteView, NotesCollection, Computer) {
             this.NoteView = NoteView;
             var computer = new Computer({
+                id: 3,
                 name: "Computer with notes",
                 vendor: "Vendor",
                 notes: [
@@ -105,6 +106,28 @@ describe("View : Notes list", function () {
             expect(this.notesListView.model.getNotesCollection().length).toBe(4);
             this.notesListView.$('.cancel').click();
             expect(this.notesListView.model.getNotesCollection().length).toBe(3);
+        });
+
+        describe("saving the notes", function () {
+            beforeEach(function () {
+                spyOn($, 'ajax').and.callFake(function (options) {
+                    options.success();
+                });
+            });
+
+            it("sends put request for computer", function () {
+                this.notesListView.$('.save-notes').click();
+                expect($.ajax).toHaveBeenCalled();
+                var ajaxArgs = $.ajax.calls.mostRecent().args[0];
+                expect(ajaxArgs.url).toBe('/api/computer/3');
+                expect(ajaxArgs.type.toLowerCase()).toBe('put');
+            });
+
+            it("hides modal", function () {
+                var spyHideEvent = spyOnEvent('#computer-notes', 'hide.bs.modal');
+                this.notesListView.$('.save-notes').click();
+                expect(spyHideEvent).toHaveBeenTriggered();
+            });
         });
     });
 

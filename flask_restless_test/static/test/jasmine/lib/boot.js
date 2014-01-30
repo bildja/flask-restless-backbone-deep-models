@@ -167,7 +167,9 @@
         'spec/models/Computer',
         'spec/models/Note',
         'spec/views/Note',
-        'spec/views/NotesList'
+        'spec/views/NotesList',
+        'spec/views/ComputerItem',
+        'spec/views/ComputersList'
 //        'spec/jasmine-jquery-spec'
     ];
 

@@ -1,4 +1,4 @@
-describe("Person info view", function () {
+describe("View : Person info", function () {
     var mockPersonData = {
         id: 1,
         name: "Person name",
