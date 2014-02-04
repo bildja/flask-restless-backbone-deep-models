@@ -169,7 +169,8 @@
         'spec/views/Note',
         'spec/views/NotesList',
         'spec/views/ComputerItem',
-        'spec/views/ComputersList'
+        'spec/views/ComputersList',
+        'spec/views/addEditComputer'
 //        'spec/jasmine-jquery-spec'
     ];
 
