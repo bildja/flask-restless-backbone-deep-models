@@ -7,8 +7,17 @@ define(function (require) {
         template: _.template(paginationTemplate),
 
         initialize: function (options) {
+            if (!this.collection) {
+                throw Error("the `collection` param is required");
+            }
             this.collection.on('sync', this.render, this);
             this.baseUrl = options.baseUrl;
+            if (!this.baseUrl) {
+                throw Error("baseUrl is required");
+            }
+            if (this.baseUrl[this.baseUrl.length - 1] !== '/') {
+                this.baseUrl = this.baseUrl + '/'
+            }
         },
 
         render: function () {

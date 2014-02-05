@@ -1,7 +1,6 @@
 define(function (require) {
     'use strict';
-    var _ = require('underscore'),
-        Backbone = require('backbone'),
+    var Backbone = require('backbone'),
         PaginationView = require('app/base/views/Pagination');
     return Backbone.View.extend({
         el: '#content',
