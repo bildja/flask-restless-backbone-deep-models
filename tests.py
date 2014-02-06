@@ -211,6 +211,26 @@ class TestAPI(FlaskRestlessTestCase):
             }
         })
 
+    def test_computer_name_unique(self):
+        computer_data = {
+            u'name': u"Macbook Pro",
+            u'vendor': u"Apple",
+            u'purchase_time': u"2013-11-11T11:11:11",
+        }
+        response = self.client.post('/api/computer',
+                                    data=json.dumps(computer_data),
+                                    content_type='application/json')
+        self.assert_status(response, 201)
+        response = self.client.post('/api/computer',
+                                    data=json.dumps(computer_data),
+                                    content_type='application/json')
+        self.assert400(response)
+        self.assertDictEqual(response.json, {
+            u'validation_errors': {
+                u'name': u"The field is not unique"
+            }
+        })
+
     def test_computers_paging(self):
         for i in range(5):
             self.client.post('/api/computer', data=json.dumps({

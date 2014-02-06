@@ -2,6 +2,7 @@ import datetime
 import flask
 import flask.ext.sqlalchemy
 import flask.ext.restless
+from flask.ext.restless_test.validators import validates_uniqueness
 from flask_restless_test import db, app
 from savalidation import ValidationMixin, ValidationError
 import savalidation.validators as Val
@@ -38,6 +39,8 @@ class Computer(db.Model, ValidationMixin):
     notes = db.relationship('Note', backref=db.backref('computer'))
 
     Val.validates_constraints()
+
+    validates_uniqueness('name')
 
 
 class Note(db.Model):
