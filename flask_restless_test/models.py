@@ -20,6 +20,7 @@ class Person(db.Model, ValidationMixin):
     birth_date = db.Column(db.Date)
 
     Val.validates_constraints()
+    validates_uniqueness('name')
 
     def computers_count(self):
         return self.computers.count()

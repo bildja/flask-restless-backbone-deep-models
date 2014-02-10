@@ -186,6 +186,23 @@ class TestAPI(FlaskRestlessTestCase):
         response_json = response.json
         self.assertListEqual(response_json[u'computers'], [computer_data])
 
+    def test_person_uniqueness(self):
+        person_data = {
+            u'name': u"Test Person U",
+            u'birth_date': u"1981-05-16"
+        }
+        response = self.client.post('/api/person', data=json.dumps(person_data),
+                                    content_type='application/json')
+        self.assert_status(response, 201)
+        response = self.client.post('/api/person', data=json.dumps(person_data),
+                                    content_type='application/json')
+        self.assert400(response)
+        self.assertDictEqual(response.json, {
+            u'validation_errors': {
+                u'name': u"The field is not unique"
+            }
+        })
+
     def test_computer_invalid(self):
         computer_data = {
             u'vendor': u"Some vendor",

@@ -7,9 +7,6 @@ class UniquenessValidator(FancyValidator):
         "invalid": "The field is not unique"
     }
 
-    def __init__(self, *args, **kwargs):
-        super(UniquenessValidator, self).__init__(*args, **kwargs)
-
     def validate_python(self, value, state):
         entity = state.entity
         EntityClass = entity.__class__
