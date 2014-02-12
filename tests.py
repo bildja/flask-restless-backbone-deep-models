@@ -203,6 +203,47 @@ class TestAPI(FlaskRestlessTestCase):
             }
         })
 
+    def test_owner_name_uniqueness(self):
+        computer_data = {
+            u'name': u"Macbook Pro",
+            u'owner': {
+                u'name': u"Andrew"
+            }
+        }
+        response = self.client.post('/api/computer', data=json.dumps(computer_data),
+                                    content_type='application/json')
+        self.assert_status(response, 201)
+        computer_data[u'name'] = u"Macbook Pro1"
+        response = self.client.post('/api/computer', data=json.dumps(computer_data),
+                                    content_type='application/json')
+        self.assert400(response)
+        self.assertDictEqual(response.json, {
+            u'validation_errors': {
+                u'owner.name': u"The field is not unique"
+            }
+        })
+
+    def test_add_owner_to_computer(self):
+        computer_data = {
+            u'name': u"Macbook Pro"
+        }
+        response = self.client.post('/api/computer', data=json.dumps(computer_data),
+                                    content_type='application/json')
+        self.assert_status(response, 201)
+        computer_data = response.json
+        computer_data[u'owner'] = {
+            u'name': u"Andrew"
+        }
+        response = self.client.put('/api/computer/{}'.format(response.json[u'id']),
+                                   data=json.dumps(computer_data),
+                                   content_type='application/json')
+        self.assert200(response)
+        self.assertIn(u'owner', response.json)
+        self.assertIsInstance(response.json[u'owner'], dict)
+        self.assertDictContainsSubset({
+            u'name': u"Andrew",
+        }, response.json[u'owner'])
+
     def test_computer_invalid(self):
         computer_data = {
             u'vendor': u"Some vendor",

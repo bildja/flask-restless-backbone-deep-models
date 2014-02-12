@@ -2,10 +2,20 @@ import datetime
 import flask
 import flask.ext.sqlalchemy
 import flask.ext.restless
+from sqlalchemy.orm.mapper import validates
 from flask.ext.restless_test.validators import validates_uniqueness
 from flask_restless_test import db, app
 from savalidation import ValidationMixin, ValidationError
 import savalidation.validators as Val
+
+
+class UniquenessValidationError(Exception):
+
+    def __init__(self, key):
+        self.errors = {
+            key: u'The field is not unique'
+        }
+        super(UniquenessValidationError, self).__init__()
 
 
 # Create your Flask-SQLALchemy models as usual but with the following two
@@ -43,6 +53,14 @@ class Computer(db.Model, ValidationMixin):
 
     validates_uniqueness('name')
 
+    @validates('owner')
+    def validates_name(self, key, owner):
+        if not owner:
+            return owner
+        if Person.query.filter(Person.name == owner.name, Person.id != owner.id).count():
+            raise UniquenessValidationError('owner.name')
+        return owner
+
 
 class Note(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -71,9 +89,9 @@ manager.create_api(Person, methods=['GET'],
 # The second one is for items, will have nested computers fields
 manager.create_api(Person,
                    methods=['GET', 'POST', 'DELETE', 'PUT'],
-                   validation_exceptions=[ValidationError])
+                   validation_exceptions=[ValidationError, UniquenessValidationError])
 
 manager.create_api(Computer,
                    methods=['GET', 'POST', 'DELETE', 'PUT', 'PATCH'],
-                   validation_exceptions=[ValidationError])
+                   validation_exceptions=[ValidationError, UniquenessValidationError])
 manager.create_api(Note, methods=['GET', 'POST', 'DELETE'])
