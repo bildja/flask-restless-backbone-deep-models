@@ -27,18 +27,19 @@ describe("View : AddEditComputer", function () {
 
     describe("editing", function () {
         beforeEach(function () {
-            var computer = new this.Computer({
+            this.COMPUTER_DATA = {
                 id: 1,
-                owner_id: 4,
+                owner_id: "4",
                 name: "Macbook Pro",
                 vendor: "Apple",
                 purchase_time: "2014-01-11T23:50:06",
                 owner: {
                     name: "Andrew",
-                    id: 3,
+                    id: 4,
                     birth_date: "1992-11-23"
                 }
-            });
+            };
+            var computer = new this.Computer(this.COMPUTER_DATA);
             this.editComputerView = new this.AddEditComputer({
                 model: computer
             }).render();
@@ -56,10 +57,56 @@ describe("View : AddEditComputer", function () {
 
         it("renders filled form", function () {
             var $form = this.editComputerView.$('form');
-            expect($form.find('[name=owner_id]')).toHaveValue("3");
+            expect($form.find('[name=owner_id]')).toHaveValue("4");
             expect($form.find('[name=name]')).toHaveValue("Macbook Pro");
             expect($form.find('[name=vendor]')).toHaveValue("Apple");
             expect($form.find('[name=purchase_time]')).toHaveValue("2014-01-11 23:50:06");
+        });
+
+        describe("on submit", function () {
+            beforeEach(function () {
+                spyOn($, 'ajax').and.callFake(function (options) {
+                    options.success();
+                });
+            });
+
+            describe("with no changes", function () {
+                beforeEach(function () {
+                    this.editComputerView.$('form').submit();
+                });
+
+                it("sends data", function () {
+                    expect($.ajax).toHaveBeenCalled();
+                });
+
+                it("sends the put request", function () {
+                    expect($.ajax).toHaveBeenCalled();
+                    expect($.ajax.calls.mostRecent().args[0].type.toLowerCase()).toBe('put');
+                });
+
+                it("sends the correct data on submit", function () {
+                    expect($.ajax.calls.mostRecent().args[0].data).toEqual(JSON.stringify(this.COMPUTER_DATA));
+                });
+
+                it("sends data to the correct url", function () {
+                    expect($.ajax.calls.mostRecent().args[0].url).toBe('/api/computer/1');
+                });
+
+            });
+
+            it("sends just owner name if add-new checked and only name entered", function () {
+                var $form = this.editComputerView.$('form');
+                $form.find('#add-owner').prop('checked', true).trigger('change');
+                $form.find('[name="owner.name"]').val("Andrew-2");
+                $form.submit();
+                var ajaxArgs = $.ajax.calls.mostRecent().args[0];
+                var data = JSON.parse(ajaxArgs.data);
+                expect(data.owner_id).toBeUndefined();
+                expect(data.owner).toEqual({
+                    name: "Andrew-2",
+                    birth_date: ''
+                });
+            });
         });
 
         afterEach(function () {

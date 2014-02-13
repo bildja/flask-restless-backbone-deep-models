@@ -19,11 +19,14 @@ define(function (require) {
             return this;
         },
 
+        isAddOwner: function () {
+            return this.$('#add-owner').is(':checked');
+        },
+
         getFormData: function () {
             var $form = this.$('form'),
-                fields = ['name', 'vendor'],
-                addOwner = this.$('#add-owner').is(':checked');
-            if (addOwner) {
+                fields = ['name', 'vendor'];
+            if (this.isAddOwner()) {
                 fields = fields.concat('owner.name', 'owner.birth_date');
             } else {
                 fields.push('owner_id');
@@ -35,6 +38,10 @@ define(function (require) {
 
         saveModel: function () {
             this.model.setPurchaseTime(this.$('[name=purchase_time]').val());
+            if (this.isAddOwner()) {
+                this.model.unset('owner_id');
+                this.model.unset('owner');
+            }
             return ModalForm.prototype.saveModel.apply(this, arguments);
         },
 
