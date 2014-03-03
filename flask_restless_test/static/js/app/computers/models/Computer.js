@@ -83,6 +83,11 @@ define(function (require) {
 
         getOwnerId: function () {
             return this.get('owner').id;
+        },
+
+        parse: function (data) {
+            delete data.headers;
+            return data;
         }
 
     });

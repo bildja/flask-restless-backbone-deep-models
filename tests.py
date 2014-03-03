@@ -234,6 +234,7 @@ class TestAPI(FlaskRestlessTestCase):
         computer_data[u'owner'] = {
             u'name': u"Andrew"
         }
+        del computer_data[u'headers']  # oO
         response = self.client.put('/api/computer/{}'.format(response.json[u'id']),
                                    data=json.dumps(computer_data),
                                    content_type='application/json')

@@ -9,13 +9,22 @@ from savalidation import ValidationMixin, ValidationError
 import savalidation.validators as Val
 
 
-class UniquenessValidationError(Exception):
+class CustomValidationErrorBase(Exception):
+    error_message = None
 
     def __init__(self, key):
         self.errors = {
-            key: u'The field is not unique'
+            key: self.error_message
         }
-        super(UniquenessValidationError, self).__init__()
+        super(CustomValidationErrorBase, self).__init__()
+
+
+class UniquenessValidationError(CustomValidationErrorBase):
+    error_message = u'The field is not unique'
+
+
+class EmptyValidationError(CustomValidationErrorBase):
+    error_message = u"Please enter a value"
 
 
 # Create your Flask-SQLALchemy models as usual but with the following two
@@ -57,6 +66,8 @@ class Computer(db.Model, ValidationMixin):
     def validates_name(self, key, owner):
         if not owner:
             return owner
+        if not owner.name:
+            raise EmptyValidationError('owner.name')
         if Person.query.filter(Person.name == owner.name, Person.id != owner.id).count():
             raise UniquenessValidationError('owner.name')
         return owner
@@ -93,5 +104,5 @@ manager.create_api(Person,
 
 manager.create_api(Computer,
                    methods=['GET', 'POST', 'DELETE', 'PUT', 'PATCH'],
-                   validation_exceptions=[ValidationError, UniquenessValidationError])
+                   validation_exceptions=[ValidationError, UniquenessValidationError, EmptyValidationError])
 manager.create_api(Note, methods=['GET', 'POST', 'DELETE'])
