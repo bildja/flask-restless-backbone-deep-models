@@ -1,5 +1,5 @@
 Flask==0.10.1
-https://github.com/bildja/flask-restless.git
+git+https://github.com/bildja/flask-restless.git
 Flask-SQLAlchemy==1.0
 Flask-Testing==0.4
 FormEncode==1.2.6
