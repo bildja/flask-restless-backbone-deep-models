@@ -86,7 +86,9 @@ define(function (require) {
         },
 
         parse: function (data) {
-            delete data.headers;
+            if (_.isObject(data)) {
+                delete data.headers;
+            }
             return data;
         }
 
